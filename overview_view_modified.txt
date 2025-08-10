@@ -1,0 +1,175 @@
+<mvc:View
+    controllerName="sap.training.exc.controller.Overview"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+>
+    <Page title="Flight Customers">
+        <content>
+            <!-- New Customer Panel -->
+            <Panel headerText="New Customer" expandable="true" expanded="false" class="sapUiResponsiveMargin" width="auto">
+                <content>
+                    <f:SimpleForm layout="ColumnLayout" editable="true">
+                        <f:toolbar>
+                            <Toolbar>
+                                <content>
+                                    <ToolbarSpacer/>
+                                    <Button icon="sap-icon://create" text="Create Customer" press="onSave"/>
+                                </content>
+                            </Toolbar>
+                        </f:toolbar>
+                        <f:content>
+                            <core:Title text="General Data"/>
+                            <Label text="Form"/>
+                            <Input value="{customer>/Form}"/>
+                            <Label text="Customer Name"/>
+                            <Input value="{customer>/CustomerName}"/>
+                            <Label text="Discount"/>
+                            <Input value="{customer>/Discount}"/>
+                            <core:Title text="Address Data"/>
+                            <Label text="Street"/>
+                            <Input value="{customer>/Street}"/>
+                            <Label text="Post Code"/>
+                            <Input value="{customer>/PostCode}"/>
+                            <Label text="City"/>
+                            <Input value="{customer>/City}"/>
+                            <Label text="Country"/>
+                            <Input value="{customer>/Country}"/> 
+                            <core:Title text="Contact Data"/>
+                            <Label text="Email"/>
+                            <Input value="{customer>/Email}"/>
+                            <Label text="Telephone"/>
+                            <Input value="{customer>/Telephone}"/>
+                        </f:content>
+                    </f:SimpleForm>
+                </content>
+            </Panel>
+
+            <!-- Customers Table Panel -->
+            <Panel headerText="Customers" class="sapUiResponsiveMargin" width="auto">
+                <content>
+                    <Table
+                        id="customersTable"
+                        items="{/Customers}"
+                        mode="SingleSelect"
+                        selectionChange="onCustomerSelect"
+                        class="sapUiResponsiveMargin">
+                        <headerToolbar>
+                            <Toolbar>
+                                <content>
+                                    <Title text="Customer List" level="H2"/>
+                                    <ToolbarSpacer/>
+                                    <SearchField width="20rem" search="onSearchCustomers"/>
+                                </content>
+                            </Toolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column width="8rem">
+                                <Text text="Customer #"/>
+                            </Column>
+                            <Column width="6rem">
+                                <Text text="Form"/>
+                            </Column>
+                            <Column width="12rem">
+                                <Text text="Customer Name"/>
+                            </Column>
+                            <Column width="12rem">
+                                <Text text="City"/>
+                            </Column>
+                            <Column width="6rem">
+                                <Text text="Country"/>
+                            </Column>
+                            <Column width="12rem">
+                                <Text text="Email"/>
+                            </Column>
+                            <Column width="8rem">
+                                <Text text="Discount"/>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem press="onCustomerPress">
+                                <cells>
+                                    <Text text="{CustomerNumber}"/>
+                                    <Text text="{Form}"/>
+                                    <Text text="{CustomerName}"/>
+                                    <Text text="{City}"/>
+                                    <Text text="{Country}"/>
+                                    <Text text="{Email}"/>
+                                    <Text text="{Discount}%"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </content>
+            </Panel>
+
+            <!-- Customer Bookings Panel -->
+            <Panel 
+                id="bookingsPanel"
+                headerText="Customer Bookings" 
+                class="sapUiResponsiveMargin" 
+                width="auto"
+                visible="false">
+                <content>
+                    <Table
+                        id="bookingsTable"
+                        items="{bookings>/}"
+                        class="sapUiResponsiveMargin">
+                        <headerToolbar>
+                            <Toolbar>
+                                <content>
+                                    <Title id="bookingsTitle" text="Bookings for Customer" level="H3"/>
+                                    <ToolbarSpacer/>
+                                    <Button icon="sap-icon://decline" tooltip="Close" press="onCloseBookings"/>
+                                </content>
+                            </Toolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column width="8rem">
+                                <Text text="Booking #"/>
+                            </Column>
+                            <Column width="6rem">
+                                <Text text="Airline"/>
+                            </Column>
+                            <Column width="8rem">
+                                <Text text="Connection"/>
+                            </Column>
+                            <Column width="8rem">
+                                <Text text="Flight Date"/>
+                            </Column>
+                            <Column width="6rem">
+                                <Text text="Class"/>
+                            </Column>
+                            <Column width="8rem">
+                                <Text text="Amount"/>
+                            </Column>
+                            <Column width="6rem">
+                                <Text text="Currency"/>
+                            </Column>
+                            <Column width="6rem">
+                                <Text text="Status"/>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{BookingNumber}"/>
+                                    <Text text="{AirlineID}"/>
+                                    <Text text="{ConnectionNumber}"/>
+                                    <Text text="{FlightDate}"/>
+                                    <Text text="{Class}"/>
+                                    <Text text="{ForeignCurrencyPayment}"/>
+                                    <Text text="{ForeignCurrency}"/>
+                                    <ObjectStatus 
+                                        text="{path: 'IsCancelled', formatter: '.formatBookingStatus'}"
+                                        state="{path: 'IsCancelled', formatter: '.formatBookingState'}"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </content>
+            </Panel>
+        </content>
+    </Page>
+</mvc:View>
